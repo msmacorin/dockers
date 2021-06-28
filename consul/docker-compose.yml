@@ -1,0 +1,56 @@
+version: '3.4'
+services:
+  consul-agent-1: &consul-agent
+    restart: unless-stopped
+    image: consul:latest
+    command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0"
+    volumes:
+      - ../data/consul_agent_1:/consul/data
+    networks:
+      - appnet
+  consul-agent-2:
+    <<: *consul-agent
+    restart: unless-stopped
+    volumes:
+      - ../data/consul_agent_2:/consul/data
+    networks:
+      - appnet
+  consul-agent-3:
+    <<: *consul-agent
+    restart: unless-stopped
+    volumes:
+      - ../data/consul_agent_3:/consul/data
+    networks:
+      - appnet
+  consul-server-1: &consul-server
+    <<: *consul-agent
+    restart: unless-stopped
+    command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0"
+    volumes:
+      - ../data/consul_server_1:/consul/data
+    networks:
+      - appnet
+  consul-server-2:
+    <<: *consul-server
+    restart: unless-stopped
+    volumes:
+      - ../data/consul_server_2:/consul/data
+    networks:
+      - appnet
+  consul-server-bootstrap:
+    <<: *consul-agent
+    restart: unless-stopped
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"
+      - "8600:8600/udp"
+    command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
+    volumes:
+      - ../data/consul_server_3:/consul/data
+    networks:
+      - appnet
+networks:
+  appnet:
+    external:
+      name: app_network
