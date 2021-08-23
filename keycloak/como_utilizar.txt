@@ -2,7 +2,7 @@
  - criar uma role
  	* crie uma role admin-user
  	 - altere o Composite Roles para ON
- 	 - na caixa q abrir, em Client Roles, selecione "realm-manamagement" e em Available Roles, adicione manage-users para Associated Roles
+ 	 - na caixa q abrir, em Client Roles, selecione "realm-manamagement" e em Available Roles, adicione manage-users(para poder criar usuarios) e view-clients (para poder listar as roles disponiveis) para Associated Roles
  - criar o client
  	* alterar no client:
  	 - access type pra confidential
