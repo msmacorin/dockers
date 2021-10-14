@@ -1,0 +1,3 @@
+depois de rodar a primeira vez e a pasta redis_data ser criada é necessário rodar o chmod abaixo pra subir certo
+
+sudo chown -R 1001:1001 redis_data/
